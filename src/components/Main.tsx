@@ -1,33 +1,60 @@
 import { useEffect, useState } from 'react'
+import { apiData } from '../types'
 
-export default function Main() {
+interface MainProps {
+  data: apiData | undefined
+}
+
+export default function Main({ data }: MainProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Calculate mouse position as a percentage of window size
-      const x = (e.clientX / window.innerWidth - 0.5) * 20 // multiply by 20 to amplify the effect
+      const x = (e.clientX / window.innerWidth - 0.5) * 20
       const y = (e.clientY / window.innerHeight - 0.5) * 20
+      setPosition({ x, y })
+    }
 
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      const x = (touch.clientX / window.innerWidth - 0.5) * 20
+      const y = (touch.clientY / window.innerHeight - 0.5) * 20
       setPosition({ x, y })
     }
 
     document.body.addEventListener('mousemove', handleMouseMove)
+    document.body.addEventListener('touchmove', handleTouchMove)
 
     return () => {
       document.body.removeEventListener('mousemove', handleMouseMove)
+      document.body.removeEventListener('touchmove', handleTouchMove)
     }
   }, [])
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoaded(true)
+    }, 100)
+  }, [])
+
   return (
-    <section className='img-container'>
+    <section
+      className='img-container'
+      style={{
+        transition: 'opacity 3s ease-in-out',
+        transitionDelay: '1s',
+        opacity: isLoaded ? '1' : '0'
+      }}
+    >
       <img
-        src='/mars.jpg'
-        alt='Mars'
+        src={data?.hdurl || '/mars.jpg'}
+        alt={data?.title || 'bg-img'}
         className='bg-image'
+        draggable={false}
         style={{
           transform: `translate(${position.x}px, ${position.y}px)`,
-          transition: 'transform 0.2s ease-out'
+          transition: 'transform 0.2s ease-out, opacity 3s ease-out'
         }}
       />
     </section>

@@ -1,13 +1,18 @@
 import { ArrowRight } from 'lucide-react'
 import { Dispatch } from 'react'
+import { apiData } from '../types'
+
+interface SideBarProps {
+  showModal: boolean
+  setShowModal: Dispatch<boolean>
+  data: apiData | undefined
+}
 
 export default function SideBar({
   showModal,
-  setShowModal
-}: {
-  showModal: boolean
-  setShowModal: Dispatch<boolean>
-}) {
+  setShowModal,
+  data
+}: SideBarProps) {
   return (
     <aside
       style={{
@@ -19,6 +24,7 @@ export default function SideBar({
         style={{
           translate: showModal ? '0' : '100%'
         }}
+        onClick={() => setShowModal(false)}
       ></div>
       <div
         className='sidebar-content'
@@ -27,14 +33,10 @@ export default function SideBar({
         }}
       >
         <div>
-          <h2>Mars: 225 million miles away</h2>
-          <h3>Description</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
-            fuga expedita excepturi cumque, neque quis consectetur officiis
-            molestias error. Nobis vitae corrupti non optio sequi mollitia
-            provident assumenda consequatur laboriosam.
-          </p>
+          <h2>{data?.title}</h2>
+          <h3>{data?.date}</h3>
+          <p>{data?.explanation}</p>
+          <p className='copyright'>&copy; {data?.copyright}</p>
         </div>
         <button onClick={() => setShowModal(false)}>
           <ArrowRight />
