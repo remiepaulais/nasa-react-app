@@ -1,5 +1,5 @@
 export interface apiData {
-  copyright: string
+  copyright?: string
   date: string
   explanation: string
   hdurl: string

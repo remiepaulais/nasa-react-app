@@ -36,7 +36,9 @@ export default function SideBar({
           <h2>{data?.title}</h2>
           <h3>{data?.date}</h3>
           <p>{data?.explanation}</p>
-          <p className='copyright'>&copy; {data?.copyright}</p>
+          {data?.copyright && (
+            <p className='copyright'>&copy; {data?.copyright}</p>
+          )}
         </div>
         <button onClick={() => setShowModal(false)}>
           <ArrowRight />

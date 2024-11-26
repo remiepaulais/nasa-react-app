@@ -11,15 +11,15 @@ export default function Main({ data }: MainProps) {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20
-      const y = (e.clientY / window.innerHeight - 0.5) * 20
+      const x = (1 - (e.clientX / window.innerWidth - 0.5)) * 20
+      const y = (1 - (e.clientY / window.innerHeight - 0.5)) * 20
       setPosition({ x, y })
     }
 
     const handleTouchMove = (e: TouchEvent) => {
       const touch = e.touches[0]
-      const x = (touch.clientX / window.innerWidth - 0.5) * 20
-      const y = (touch.clientY / window.innerHeight - 0.5) * 20
+      const x = (1 - (touch.clientX / window.innerWidth - 0.5)) * 20
+      const y = (1 - (touch.clientY / window.innerHeight - 0.5)) * 20
       setPosition({ x, y })
     }
 
